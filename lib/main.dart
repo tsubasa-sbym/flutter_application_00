@@ -52,6 +52,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  bool _setValue = false;
   void _incrementCounter() {
     setState(() {
       _counter++;
@@ -112,7 +113,22 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
          onPressed: _incrementCounter, tooltip: 'Increment', child: const Icon(Icons.add)),
       drawer: const Drawer(child: Center(child: Text("Drawer"))),
-      endDrawer: const Drawer(child: Center(child: Text("EndDrawer"))),
+      endDrawer: Drawer(
+        child: ListView(children: <Widget>[
+          SwitchListTile(
+          title:const  Text('記念日'),
+          value: _setValue,
+          //スイッチが変更された時のイベントを定義する
+          onChanged: (bool value) {
+            setState(() {
+              _setValue = value;
+            });
+            // 変更時のイベントが続く
+          },
+          secondary: const Icon(FontAwesomeIcons.gift, color: Colors.teal),
+          ),
+        ]),
+      ),
     );
   }
 }
