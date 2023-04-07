@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -110,18 +108,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   await launchUrlString(url);
               
               }),
-            IconButton(
-              icon: const Icon(FontAwesomeIcons.calendarDays,
-              color: Colors.blue, size: 30.0),
-              // ボタンが押された時に表示する
-              onPressed: () {
-                DatePicker.showDatePicker(context,
-                  showTitleActions: true,
-                  minTime: DateTime(1900, 1, 1),
-                  maxTime: DateTime(2049, 12, 31), 
-                );
-              },
-            ),
       ]),
       floatingActionButton: FloatingActionButton(
          onPressed: _incrementCounter, tooltip: 'Increment', child: const Icon(Icons.add)),
