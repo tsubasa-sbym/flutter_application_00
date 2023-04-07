@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 void main() {
   runApp(const MyApp());
@@ -97,6 +99,15 @@ class _MyHomePageState extends State<MyHomePage> {
                  size: 36.0,
                ),
              ]),
+             IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () async {
+                  String url = Uri.encodeFull(
+                      "https://www.google.co.jp/search?q=flutter");
+                  await canLaunchUrlString(url);
+                  await launchUrlString(url);
+              
+              }),
       ]),
       floatingActionButton: FloatingActionButton(
          onPressed: _incrementCounter, tooltip: 'Increment', child: const Icon(Icons.add)),
