@@ -50,84 +50,127 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  bool _setValue = false;
-  void _incrementCounter() {
+  bool _flag = false;
+  _click() async {
     setState(() {
-      _counter++;
+      _flag = !_flag;
     });
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(children: const [
-         Icon(Icons.create),
-         Text("タイトル"),
-       ]),
+        title: Text(widget.title),
       ),
-      body: Column(children: [
-         const Center(child: Icon(FontAwesomeIcons.gift, color: Colors.teal)),
-         const Text("HelloWorld"),
-         const Text("ハローワールド"),
-         Text(
-             '$_counter',
-             style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          if (_counter % 2 == 0)
-             const Text('偶数です', style: TextStyle(fontSize: 20, color: Colors.red)),
-         TextButton(
-           onPressed: () => {print("ボタンが押されたよ")},
-           child: const Text("テキストボタン"),
-         ),
-         Row(
-             mainAxisAlignment: MainAxisAlignment.spaceAround,
-             children: const [
-               Icon(
-                 Icons.favorite,
-                 color: Colors.pink,
-                 size: 24.0,
-               ),
-               Icon(
-                 Icons.audiotrack,
-                 color: Colors.green,
-                 size: 30.0,
-               ),
-               Icon(
-                 Icons.beach_access,
-                 color: Colors.blue,
-                 size: 36.0,
-               ),
-             ]),
-             IconButton(
-              icon: const Icon(Icons.search),
-              onPressed: () async {
-                  String url = Uri.encodeFull(
-                      "https://www.google.co.jp/search?q=flutter");
-                  await canLaunchUrlString(url);
-                  await launchUrlString(url);
-              
-              }),
-      ]),
-      floatingActionButton: FloatingActionButton(
-         onPressed: _incrementCounter, tooltip: 'Increment', child: const Icon(Icons.add)),
-      drawer: const Drawer(child: Center(child: Text("Drawer"))),
-      endDrawer: Drawer(
-        child: ListView(children: <Widget>[
-          SwitchListTile(
-          title:const  Text('記念日'),
-          value: _setValue,
-          //スイッチが変更された時のイベントを定義する
-          onChanged: (bool value) {
-            setState(() {
-              _setValue = value;
-            });
-            // 変更時のイベントが続く
-          },
-          secondary: const Icon(FontAwesomeIcons.gift, color: Colors.teal),
-          ),
-        ]),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            AnimatedOpacity(
+                opacity: _flag ? 0.1 : 1.0,
+                duration: const Duration(seconds: 3),
+                child: Text(
+                  "消える文字",
+                  style: Theme.of(context).textTheme.headline4,
+                )),
+            AnimatedSize(
+                duration: const Duration(seconds: 3),
+                child: SizedBox(
+                    width: _flag ? 50 : 200,
+                    height: _flag ? 50 : 200,
+                    child: Container(color: Colors.purple))),
+            AnimatedAlign(
+                duration: const Duration(seconds: 3),
+                alignment: _flag ? Alignment.topLeft : Alignment.bottomRight,
+                child: SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: Container(color: Colors.green)))
+          ],
+        ),
       ),
+      floatingActionButton:
+        FloatingActionButton(onPressed: _click, child: const Icon(Icons.add)),
     );
   }
+//   int _counter = 0;
+//   bool _setValue = false;
+//   void _incrementCounter() {
+//     setState(() {
+//       _counter++;
+//     });
+//   }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Row(children: const [
+//          Icon(Icons.create),
+//          Text("タイトル"),
+//        ]),
+//       ),
+//       body: Column(children: [
+//          const Center(child: Icon(FontAwesomeIcons.gift, color: Colors.teal)),
+//          const Text("HelloWorld"),
+//          const Text("ハローワールド"),
+//          Text(
+//              '$_counter',
+//              style: Theme.of(context).textTheme.headlineMedium,
+//           ),
+//           if (_counter % 2 == 0)
+//              const Text('偶数です', style: TextStyle(fontSize: 20, color: Colors.red)),
+//          TextButton(
+//            onPressed: () => {print("ボタンが押されたよ")},
+//            child: const Text("テキストボタン"),
+//          ),
+//          Row(
+//              mainAxisAlignment: MainAxisAlignment.spaceAround,
+//              children: const [
+//                Icon(
+//                  Icons.favorite,
+//                  color: Colors.pink,
+//                  size: 24.0,
+//                ),
+//                Icon(
+//                  Icons.audiotrack,
+//                  color: Colors.green,
+//                  size: 30.0,
+//                ),
+//                Icon(
+//                  Icons.beach_access,
+//                  color: Colors.blue,
+//                  size: 36.0,
+//                ),
+//              ]),
+//              IconButton(
+//               icon: const Icon(Icons.search),
+//               onPressed: () async {
+//                   String url = Uri.encodeFull(
+//                       "https://www.google.co.jp/search?q=flutter");
+//                   await canLaunchUrlString(url);
+//                   await launchUrlString(url);
+              
+//               }),
+//       ]),
+//       floatingActionButton: FloatingActionButton(
+//          onPressed: _incrementCounter, tooltip: 'Increment', child: const Icon(Icons.add)),
+//       drawer: const Drawer(child: Center(child: Text("Drawer"))),
+//       endDrawer: Drawer(
+//         child: ListView(children: <Widget>[
+//           SwitchListTile(
+//           title:const  Text('記念日'),
+//           value: _setValue,
+//           //スイッチが変更された時のイベントを定義する
+//           onChanged: (bool value) {
+//             setState(() {
+//               _setValue = value;
+//             });
+//             // 変更時のイベントが続く
+//           },
+//           secondary: const Icon(FontAwesomeIcons.gift, color: Colors.teal),
+//           ),
+//         ]),
+//       ),
+//     );
+//   }
 }
