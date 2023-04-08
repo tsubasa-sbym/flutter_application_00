@@ -49,13 +49,87 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  bool _flag = false;
-  _click() async {
+//AnimationControllerを使ったTransition系Widgetアニメーション
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  // 再生
+  _forward() async {
     setState(() {
-      _flag = !_flag;
+      _animationController.forward();
     });
   }
+
+  //停止
+  _stop() async {
+    setState(() {
+      _animationController.stop();
+    });
+  }
+
+  // 逆再生
+  _reverse() async {
+    setState(() {
+      _animationController.reverse();
+    });
+  }
+
+  // 生成
+  @override
+  void initState() {
+    super.initState();
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(seconds: 3));
+  }
+
+  // 破棄
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizeTransition(
+              sizeFactor: _animationController, // AnimationControllerを設定
+              child: Center(
+                  child: SizedBox(
+                      width: 50,
+                      height: 50,
+                      child: Container(color: Colors.green))),
+            ),
+          ],
+        ),
+      ),
+      // 再生、停止、逆再生のボタン
+      floatingActionButton:
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        FloatingActionButton(
+            onPressed: _forward, child: const Icon(Icons.arrow_forward)),
+        FloatingActionButton(onPressed: _stop, child: const Icon(Icons.pause)),
+        FloatingActionButton(
+            onPressed: _reverse, child: const Icon(Icons.arrow_back)),
+      ]),
+    );
+  }
+}
+
+// class _MyHomePageState extends State<MyHomePage> {
+  // bool _flag = false;
+  // _click() async {
+  //   setState(() {
+  //     _flag = !_flag;
+  //   });
+  // }
   //AnimatedOpacity/AnimatedSize/AnimatedAlign
   // @override
   // Widget build(BuildContext context) {
@@ -96,36 +170,36 @@ class _MyHomePageState extends State<MyHomePage> {
   // }
 
   //AnimatedContainer/AnimatedSwitcher
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            AnimatedContainer(
-                duration: const Duration(seconds: 3),
-                width: _flag ? 100 : 50,
-                height: _flag ? 50 : 100,
-                padding: _flag ? const EdgeInsets.all(0) : const EdgeInsets.all(30),
-                margin: _flag ? const EdgeInsets.all(0) : const EdgeInsets.all(30),
-                transform: _flag ? Matrix4.skewX(0.0) : Matrix4.skewX(0.3),
-                color: _flag ? Colors.blue : Colors.grey),
-            AnimatedSwitcher(
-                duration: const Duration(seconds: 3),
-                child: _flag
-                    ? const Text("なにもない")
-                    : const Icon(Icons.favorite, color: Colors.pink))
-          ],
-        ),
-      ),
-      floatingActionButton:
-        FloatingActionButton(onPressed: _click, child: const Icon(Icons.add)),
-    );
-  }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: Text(widget.title),
+  //     ),
+  //     body: Center(
+  //       child: Column(
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: <Widget>[
+  //           AnimatedContainer(
+  //               duration: const Duration(seconds: 3),
+  //               width: _flag ? 100 : 50,
+  //               height: _flag ? 50 : 100,
+  //               padding: _flag ? const EdgeInsets.all(0) : const EdgeInsets.all(30),
+  //               margin: _flag ? const EdgeInsets.all(0) : const EdgeInsets.all(30),
+  //               transform: _flag ? Matrix4.skewX(0.0) : Matrix4.skewX(0.3),
+  //               color: _flag ? Colors.blue : Colors.grey),
+  //           AnimatedSwitcher(
+  //               duration: const Duration(seconds: 3),
+  //               child: _flag
+  //                   ? const Text("なにもない")
+  //                   : const Icon(Icons.favorite, color: Colors.pink))
+  //         ],
+  //       ),
+  //     ),
+  //     floatingActionButton:
+  //       FloatingActionButton(onPressed: _click, child: const Icon(Icons.add)),
+  //   );
+  // }
 //   int _counter = 0;
 //   bool _setValue = false;
 //   void _incrementCounter() {
@@ -206,4 +280,4 @@ class _MyHomePageState extends State<MyHomePage> {
 //       ),
 //     );
 //   }
-}
+// }
