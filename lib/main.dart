@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'test_page1.dart';
+import 'test_page2.dart';
+import 'test_page3.dart';
 
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:url_launcher/url_launcher_string.dart';
@@ -54,13 +56,50 @@ class MyHomePage extends StatefulWidget {
 }
 
 
-//
 class _MyHomePageState extends State<MyHomePage> {
+  late PageController _pageController;
+  int _selectedIndex = 0;
+
+  // ページの配列
+  final _pages = [
+    TestPage1(),
+    TestPage2(),
+    TestPage3(),
+  ];
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _selectedIndex);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: TestPage1());
+    return Scaffold(
+        body: PageView(
+            controller: _pageController,
+            onPageChanged: _onPageChanged,
+            children: _pages));
   }
 }
+
+// class _MyHomePageState extends State<MyHomePage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(body: TestPage1());
+//   }
+// }
 
 // AnimationBuilder
 // class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
